@@ -19,7 +19,29 @@ const FormButton = styled(Button)({
 });
 
 export const HomePage: React.FC = () => {
-  const [activeIndex, setIndex] = useState(-1);
+  const [activeIndex, setIndex] = useState<number>(-1);
+
+  interface InitialState {
+    existingEmail: string;
+    existingWorkspace: string;
+    newEmail: string;
+    newWorkspace: string;
+  }
+
+  const workspaceValues: InitialState = {
+    existingEmail: '',
+    existingWorkspace: '',
+    newEmail: '',
+    newWorkspace: ''
+  };
+
+  const [values, setValues] = useState<InitialState>(workspaceValues);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(setValues({ ...values, [e.target.name]: e.target.value }));
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
   return (
     <HomePageContainer>
       <h1 style={{ textAlign: 'center' }}>Slack Clone</h1>
@@ -37,11 +59,22 @@ export const HomePage: React.FC = () => {
           <Form>
             <Form.Field>
               <label>Enter the email you had been invited on</label>
-              <input placeholder="Enter email" />
+              <input
+                name="existingEmail"
+                type="email"
+                placeholder="Enter email"
+                onChange={handleInputChange}
+                value={values.existingEmail}
+              />
             </Form.Field>
             <Form.Field>
               <label>Enter the workspace you have been invited to</label>
-              <input placeholder="Enter workspace name" />
+              <input
+                name="existingWorkspace"
+                placeholder="Enter workspace name"
+                onChange={handleInputChange}
+                value={values.existingWorkspace}
+              />
             </Form.Field>
             <FormButton type="submit">Submit</FormButton>
           </Form>
@@ -59,11 +92,22 @@ export const HomePage: React.FC = () => {
           <Form>
             <Form.Field>
               <label>Enter an email</label>
-              <input placeholder="Enter email" />
+              <input
+                name="newEmail"
+                type="email"
+                placeholder="Enter email"
+                onChange={handleInputChange}
+                value={values.newEmail}
+              />
             </Form.Field>
             <Form.Field>
               <label>Enter a new workspace</label>
-              <input placeholder="Enter your new workspace name" />
+              <input
+                name="newWorkspace"
+                placeholder="Enter your new workspace name"
+                onChange={handleInputChange}
+                value={values.newWorkspace}
+              />
             </Form.Field>
             <FormButton type="submit">Submit</FormButton>
           </Form>
