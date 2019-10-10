@@ -38,7 +38,6 @@ export const HomePage: React.FC = () => {
   const [values, setValues] = useState<InitialState>(workspaceValues);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(setValues({ ...values, [e.target.name]: e.target.value }));
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
