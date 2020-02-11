@@ -1,55 +1,50 @@
-import React, { useState } from 'react';
-import { Accordion, Icon, Form, Button } from 'semantic-ui-react';
-import styled from 'styled-components';
-import { colorPrimary } from '../../common/styles/colors';
+import React, { useState } from "react";
+import { Accordion, Icon, Form, Button } from "semantic-ui-react";
+import styled from "styled-components";
+import { colorPrimary } from "../../common/styles/colors";
+import { FormikProps } from "formik";
 
-const HomePageContainer = styled.div`
-  position: absolute;
-  width: 35rem;
-  height: 18.75rem;
-  top: 50%;
-  left: 50%;
-  margin-left: -18.75rem;
-  margin-top: -9.375rem;
+const HomePageStyled = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+
+  /* source: http://www.brandgradients.com/slack-colors/ */
+  background: linear-gradient(-120deg, #3eb991, #6ecadc, #e9a820, #e01563);
 `;
 
 const FormButton = styled(Button)({
   backgroundColor: `${colorPrimary} !important`,
-  color: 'white !important'
+  color: "white !important"
 });
 
-export const HomePage: React.FC = () => {
+interface CreateWorkspaceFormValues {
+  email: string;
+  workspace: string;
+  firstName: string;
+  lastName: string;
+}
+
+interface OtherProps {
+  message: string;
+}
+
+export const HomePage = (
+  props: OtherProps & FormikProps<CreateWorkspaceFormValues>
+) => {
   const [activeIndex, setIndex] = useState<number>(-1);
 
-  interface InitialState {
-    existingEmail: string;
-    existingWorkspace: string;
-    newEmail: string;
-    newWorkspace: string;
-  }
-
-  const workspaceValues: InitialState = {
-    existingEmail: '',
-    existingWorkspace: '',
-    newEmail: '',
-    newWorkspace: ''
-  };
-
-  const [values, setValues] = useState<InitialState>(workspaceValues);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
-
   return (
-    <HomePageContainer>
-      <h1 style={{ textAlign: 'center' }}>Slack Clone</h1>
+    <HomePageStyled>
+      <h1 style={{ textAlign: "center" }}>Slack Clone</h1>
       <Accordion styled>
         <Accordion.Title
           active={activeIndex === 0}
           index={0}
           onClick={() => setIndex(activeIndex === 0 ? -1 : 0)}
-          style={{ color: 'black' }}
+          style={{ color: "black" }}
         >
           <Icon name="dropdown" />
           Join Workspace
@@ -82,7 +77,7 @@ export const HomePage: React.FC = () => {
           active={activeIndex === 1}
           index={1}
           onClick={() => setIndex(activeIndex === 1 ? -1 : 1)}
-          style={{ color: 'black' }}
+          style={{ color: "black" }}
         >
           <Icon name="dropdown" />
           Create a new Workspace
@@ -112,6 +107,6 @@ export const HomePage: React.FC = () => {
           </Form>
         </Accordion.Content>
       </Accordion>
-    </HomePageContainer>
+    </HomePageStyled>
   );
 };
