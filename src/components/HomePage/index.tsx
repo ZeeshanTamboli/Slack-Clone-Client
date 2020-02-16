@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { Accordion, Icon, Form, Button } from "semantic-ui-react";
-import styled from "styled-components";
-import { colorPrimary } from "../../common/styles/colors";
-import { FormikProps } from "formik";
+import React, { useState } from 'react';
+import { Accordion, Icon, Form, Button } from 'semantic-ui-react';
+import styled from 'styled-components';
+import { colorPrimary } from '../../common/styles/colors';
+import { FormikProps, withFormik, FormikErrors } from 'formik';
+import { RouteComponentProps } from 'react-router-dom';
 
 const HomePageStyled = styled.div`
   display: flex;
@@ -17,8 +18,13 @@ const HomePageStyled = styled.div`
 
 const FormButton = styled(Button)({
   backgroundColor: `${colorPrimary} !important`,
-  color: "white !important"
+  color: 'white !important'
 });
+
+interface JoinWorkspaceFormValues {
+  existingWorkspace: string;
+  existingEmail: string;
+}
 
 interface CreateWorkspaceFormValues {
   email: string;
@@ -27,24 +33,22 @@ interface CreateWorkspaceFormValues {
   lastName: string;
 }
 
-interface OtherProps {
-  message: string;
-}
+type FormValues = JoinWorkspaceFormValues & CreateWorkspaceFormValues;
 
-export const HomePage = (
-  props: OtherProps & FormikProps<CreateWorkspaceFormValues>
-) => {
+const HomePageForm = (props: {} & FormikProps<FormValues>) => {
   const [activeIndex, setIndex] = useState<number>(-1);
+
+  const { handleChange, handleSubmit, errors, values } = props;
 
   return (
     <HomePageStyled>
-      <h1 style={{ textAlign: "center" }}>Slack Clone</h1>
+      <h1 style={{ textAlign: 'center' }}>Slack Clone</h1>
       <Accordion styled>
         <Accordion.Title
           active={activeIndex === 0}
           index={0}
           onClick={() => setIndex(activeIndex === 0 ? -1 : 0)}
-          style={{ color: "black" }}
+          style={{ color: 'black' }}
         >
           <Icon name="dropdown" />
           Join Workspace
@@ -57,7 +61,7 @@ export const HomePage = (
                 name="existingEmail"
                 type="email"
                 placeholder="Enter email"
-                onChange={handleInputChange}
+                onChange={handleChange}
                 value={values.existingEmail}
               />
             </Form.Field>
@@ -66,7 +70,7 @@ export const HomePage = (
               <input
                 name="existingWorkspace"
                 placeholder="Enter workspace name"
-                onChange={handleInputChange}
+                onChange={handleChange}
                 value={values.existingWorkspace}
               />
             </Form.Field>
@@ -77,7 +81,7 @@ export const HomePage = (
           active={activeIndex === 1}
           index={1}
           onClick={() => setIndex(activeIndex === 1 ? -1 : 1)}
-          style={{ color: "black" }}
+          style={{ color: 'black' }}
         >
           <Icon name="dropdown" />
           Create a new Workspace
@@ -85,22 +89,42 @@ export const HomePage = (
         <Accordion.Content active={activeIndex === 1}>
           <Form>
             <Form.Field>
+              <label>Enter first name</label>
+              <input
+                name="firstName"
+                type="text"
+                placeholder="Enter first name"
+                onChange={handleChange}
+                value={values.firstName}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Enter last name</label>
+              <input
+                name="lastName"
+                type="text"
+                placeholder="Enter last name"
+                onChange={handleChange}
+                value={values.lastName}
+              />
+            </Form.Field>
+            <Form.Field>
               <label>Enter an email</label>
               <input
-                name="newEmail"
+                name="email"
                 type="email"
                 placeholder="Enter email"
-                onChange={handleInputChange}
-                value={values.newEmail}
+                onChange={handleChange}
+                value={values.email}
               />
             </Form.Field>
             <Form.Field>
               <label>Enter a new workspace</label>
               <input
-                name="newWorkspace"
+                name="workspace"
                 placeholder="Enter your new workspace name"
-                onChange={handleInputChange}
-                value={values.newWorkspace}
+                onChange={handleChange}
+                value={values.workspace}
               />
             </Form.Field>
             <FormButton type="submit">Submit</FormButton>
@@ -110,3 +134,19 @@ export const HomePage = (
     </HomePageStyled>
   );
 };
+
+interface FormErrors {
+  firstName: string;
+}
+
+export const HomePage = () =>
+  withFormik<{}, FormValues>({
+    validate: (values: FormValues) => {
+      let errors: FormikErrors<FormErrors> = {};
+      if (!values.firstName) {
+        errors.firstName = 'Required';
+      }
+      return errors;
+    },
+    handleSubmit: () => {}
+  })(HomePageForm);
