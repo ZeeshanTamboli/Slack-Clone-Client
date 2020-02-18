@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colorPrimary } from '../../common/styles/colors';
+import { colorPrimary } from '../../../common/styles/colors';
 import { Button } from 'semantic-ui-react';
 
 export const FormButton = styled(Button)({
