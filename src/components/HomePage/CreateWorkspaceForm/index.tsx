@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Accordion, Icon, Form, FormButton } from 'semantic-ui-react';
 import { FormikProps, withFormik } from 'formik';
 
