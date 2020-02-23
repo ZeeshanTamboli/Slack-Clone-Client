@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormikProps, withFormik } from 'formik';
-import { Accordion, Icon, Form, FormButton } from 'semantic-ui-react';
+import { Accordion, Icon, Form } from 'semantic-ui-react';
+import { FormButton } from '../CreateWorkspaceForm/styles';
 
 interface JoinWorkspaceFormValues {
   existingEmail: string;
