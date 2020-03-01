@@ -3,7 +3,7 @@ import { CreateWorkspaceForm } from './CreateWorkspaceForm';
 import { JoinWorkspaceForm } from './JoinWorkspaceForm';
 import { HomePageStyled, AccordianStyled } from './styles';
 
-export const HomePage = () => {
+export const HomePage: React.FC = () => {
   const [activeIndex, setIndex] = useState<number>(-1);
   return (
     <HomePageStyled>

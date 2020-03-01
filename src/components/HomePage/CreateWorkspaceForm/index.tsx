@@ -1,7 +1,8 @@
 import React from 'react';
 import { Accordion, Icon, Form } from 'semantic-ui-react';
 import { FormikProps, withFormik } from 'formik';
-import { FormButton } from './styles';
+import { FormButton, StyledErrorMessage } from './styles';
+import * as Yup from 'yup';
 
 interface CreateWorkspaceFormValues {
   email: string;
@@ -18,7 +19,15 @@ interface OtherProps {
 const CreateWorkspace = (
   props: OtherProps & FormikProps<CreateWorkspaceFormValues>
 ) => {
-  const { handleSubmit, handleChange, values, activeIndex, setIndex } = props;
+  const {
+    handleSubmit,
+    handleChange,
+    values,
+    activeIndex,
+    setIndex,
+    errors,
+    touched
+  } = props;
 
   return (
     <>
@@ -42,6 +51,9 @@ const CreateWorkspace = (
               onChange={handleChange}
               value={values.firstName}
             />
+            {errors.firstName && touched.firstName && (
+              <StyledErrorMessage>{errors.firstName}</StyledErrorMessage>
+            )}
           </Form.Field>
           <Form.Field>
             <label>Enter last name</label>
@@ -52,6 +64,9 @@ const CreateWorkspace = (
               onChange={handleChange}
               value={values.lastName}
             />
+            {errors.lastName && touched.lastName && (
+              <StyledErrorMessage>{errors.lastName}</StyledErrorMessage>
+            )}
           </Form.Field>
           <Form.Field>
             <label>Enter an email</label>
@@ -62,6 +77,9 @@ const CreateWorkspace = (
               onChange={handleChange}
               value={values.email}
             />
+            {errors.email && touched.email && (
+              <StyledErrorMessage>{errors.email}</StyledErrorMessage>
+            )}
           </Form.Field>
           <Form.Field>
             <label>Enter a new workspace</label>
@@ -71,6 +89,9 @@ const CreateWorkspace = (
               onChange={handleChange}
               value={values.workspace}
             />
+            {errors.workspace && touched.workspace && (
+              <StyledErrorMessage>{errors.workspace}</StyledErrorMessage>
+            )}
           </Form.Field>
           <FormButton type="submit">Submit</FormButton>
         </Form>
@@ -103,6 +124,14 @@ export const CreateWorkspaceForm = withFormik<
     };
   },
 
+  validationSchema: Yup.object({
+    firstName: Yup.string().required('Required'),
+    lastName: Yup.string().required('Required'),
+    email: Yup.string()
+      .email('Invalid email address')
+      .required('Required'),
+    workspace: Yup.string().required('Required')
+  }),
   handleSubmit: values => {
     //   do submitting things
     console.log('abc');

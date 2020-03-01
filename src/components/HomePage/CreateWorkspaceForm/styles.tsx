@@ -6,3 +6,7 @@ export const FormButton = styled(Button)({
   backgroundColor: `${colorPrimary} !important`,
   color: 'white !important'
 });
+
+export const StyledErrorMessage = styled.div`
+  color: red;
+`;
