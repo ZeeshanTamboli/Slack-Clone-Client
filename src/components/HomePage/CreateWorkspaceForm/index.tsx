@@ -1,8 +1,8 @@
-import React from 'react';
-import { Accordion, Icon, Form } from 'semantic-ui-react';
-import { FormikProps, withFormik } from 'formik';
-import { FormButton, StyledErrorMessage } from './styles';
-import * as Yup from 'yup';
+import React, { useState } from "react";
+import { Accordion, Icon, Form } from "semantic-ui-react";
+import { FormikProps, withFormik } from "formik";
+import { FormButton, StyledErrorMessage } from "./styles";
+import * as Yup from "yup";
 
 interface CreateWorkspaceFormValues {
   email: string;
@@ -19,6 +19,7 @@ interface OtherProps {
 const CreateWorkspace = (
   props: OtherProps & FormikProps<CreateWorkspaceFormValues>
 ) => {
+  const [count, useCount] = useState(5);
   const {
     handleSubmit,
     handleChange,
@@ -35,7 +36,7 @@ const CreateWorkspace = (
         active={activeIndex === 1}
         index={1}
         onClick={() => setIndex(activeIndex === 1 ? -1 : 1)}
-        style={{ color: 'black' }}
+        style={{ color: "black" }}
       >
         <Icon name="dropdown" />
         Create a new Workspace
@@ -117,23 +118,23 @@ export const CreateWorkspaceForm = withFormik<
   // Transform outer props into form values
   mapPropsToValues: props => {
     return {
-      email: props.initialEmail || '',
-      workspace: props.initialWorkspace || '',
-      firstName: props.intialFirstName || '',
-      lastName: props.initialLastName || ''
+      email: props.initialEmail || "",
+      workspace: props.initialWorkspace || "",
+      firstName: props.intialFirstName || "",
+      lastName: props.initialLastName || ""
     };
   },
 
   validationSchema: Yup.object({
-    firstName: Yup.string().required('Required'),
-    lastName: Yup.string().required('Required'),
+    firstName: Yup.string().required("Required"),
+    lastName: Yup.string().required("Required"),
     email: Yup.string()
-      .email('Invalid email address')
-      .required('Required'),
-    workspace: Yup.string().required('Required')
+      .email("Invalid email address")
+      .required("Required"),
+    workspace: Yup.string().required("Required")
   }),
   handleSubmit: values => {
     //   do submitting things
-    console.log('abc');
+    console.log("abc");
   }
 })(CreateWorkspace);

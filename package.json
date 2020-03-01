@@ -11,7 +11,7 @@
     "react": "^16.9.2",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.1.1",
+    "react-scripts": "^3.1.2",
     "semantic-ui-react": "^0.88.1",
     "styled-components": "^4.4.0",
     "typescript": "3.6.3",
@@ -25,6 +25,14 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "prettier --write"
   },
   "browserslist": {
     "production": [
@@ -41,6 +49,9 @@
   "devDependencies": {
     "@types/react-router-dom": "^5.1.0",
     "@types/styled-components": "^4.1.19",
-    "@types/yup": "^0.26.32"
+    "@types/yup": "^0.26.32",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
+    "prettier": "^1.19.1"
   }
 }
