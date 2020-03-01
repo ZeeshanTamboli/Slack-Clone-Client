@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Accordion, Icon, Form } from "semantic-ui-react";
 import { FormikProps, withFormik } from "formik";
 import { FormButton, StyledErrorMessage } from "./styles";
@@ -19,7 +19,6 @@ interface OtherProps {
 const CreateWorkspace = (
   props: OtherProps & FormikProps<CreateWorkspaceFormValues>
 ) => {
-  const [count, useabcs] = useState(5);
   const {
     handleSubmit,
     handleChange,
