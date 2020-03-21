@@ -1,7 +1,8 @@
-import React from 'react';
-import { FormikProps, withFormik } from 'formik';
-import { Accordion, Icon, Form } from 'semantic-ui-react';
-import { FormButton } from '../CreateWorkspaceForm/styles';
+import React from "react";
+import { FormikProps, withFormik } from "formik";
+import { Accordion, Icon, Form } from "semantic-ui-react";
+import * as Yup from "yup";
+import { FormButton, StyledErrorMessage } from "../CreateWorkspaceForm/styles";
 
 interface JoinWorkspaceFormValues {
   existingEmail: string;
@@ -15,7 +16,15 @@ interface OtherProps {
 const JoinWorkspace = (
   props: OtherProps & FormikProps<JoinWorkspaceFormValues>
 ) => {
-  const { handleSubmit, handleChange, values, activeIndex, setIndex } = props;
+  const {
+    handleSubmit,
+    handleChange,
+    values,
+    activeIndex,
+    setIndex,
+    errors,
+    touched
+  } = props;
 
   return (
     <>
@@ -23,7 +32,7 @@ const JoinWorkspace = (
         active={activeIndex === 0}
         index={0}
         onClick={() => setIndex(activeIndex === 0 ? -1 : 0)}
-        style={{ color: 'black' }}
+        style={{ color: "black" }}
       >
         <Icon name="dropdown" />
         Join Workspace
@@ -39,6 +48,9 @@ const JoinWorkspace = (
               onChange={handleChange}
               value={values.existingEmail}
             />
+            {errors.existingEmail && touched.existingEmail && (
+              <StyledErrorMessage>{errors.existingEmail}</StyledErrorMessage>
+            )}
           </Form.Field>
           <Form.Field>
             <label>Enter the workspace you have been invited to</label>
@@ -48,6 +60,11 @@ const JoinWorkspace = (
               onChange={handleChange}
               value={values.existingWorkspace}
             />
+            {errors.existingWorkspace && touched.existingWorkspace && (
+              <StyledErrorMessage>
+                {errors.existingWorkspace}
+              </StyledErrorMessage>
+            )}
           </Form.Field>
           <FormButton type="submit">Submit</FormButton>
         </Form>
@@ -70,13 +87,20 @@ export const JoinWorkspaceForm = withFormik<
   // Transform outer props into form values
   mapPropsToValues: props => {
     return {
-      existingEmail: props.existingEmail || '',
-      existingWorkspace: props.existingWorkspace || ''
+      existingEmail: props.existingEmail || "",
+      existingWorkspace: props.existingWorkspace || ""
     };
   },
 
+  validationSchema: Yup.object({
+    existingEmail: Yup.string()
+      .email("Invalid email address")
+      .required("Required"),
+    existingWorkspace: Yup.string().required("Required")
+  }),
+
   handleSubmit: values => {
     //   do submitting things
-    console.log('abc');
+    console.log("abc");
   }
 })(JoinWorkspace);
