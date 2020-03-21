@@ -28,7 +28,7 @@ const CreateWorkspace = (
     errors,
     touched
   } = props;
-  console.log("ac");
+
   return (
     <>
       <Accordion.Title
@@ -134,6 +134,6 @@ export const CreateWorkspaceForm = withFormik<
   }),
   handleSubmit: values => {
     //   do submitting things
-    console.log("abc");
+    // console.log('abc');
   }
 })(CreateWorkspace);
