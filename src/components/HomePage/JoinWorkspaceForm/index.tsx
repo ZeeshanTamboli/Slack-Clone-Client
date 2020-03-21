@@ -101,6 +101,6 @@ export const JoinWorkspaceForm = withFormik<
 
   handleSubmit: values => {
     //   do submitting things
-    console.log("abc");
+    // console.log('abc');
   }
 })(JoinWorkspace);
