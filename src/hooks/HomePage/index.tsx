@@ -15,7 +15,7 @@ export const useCreateWorkspace = (url: string) => {
       const response = await axios.post(url, workspace, {
         headers: { "Content-Type": "application/json" }
       });
-      setService({ status: "loaded", payload: response });
+      setService({ status: "loaded", payload: response.data });
     } catch (error) {
       setService({ status: "error", error });
     }
