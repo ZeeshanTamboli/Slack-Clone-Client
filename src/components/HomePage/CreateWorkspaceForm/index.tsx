@@ -4,7 +4,7 @@ import { FormikProps, withFormik } from "formik";
 import { FormButton, StyledErrorMessage } from "./styles";
 import * as Yup from "yup";
 
-interface CreateWorkspaceFormValues {
+export interface CreateWorkspaceFormValues {
   email: string;
   workspace: string;
   firstName: string;
