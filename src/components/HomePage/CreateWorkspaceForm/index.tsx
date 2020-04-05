@@ -27,13 +27,17 @@ const CreateWorkspace = (
     activeIndex,
     setIndex,
     errors,
-    touched
+    touched,
+    resetForm
   } = props;
 
-  const { createWorkspaceAPI } = useCreateWorkspace(URL_CREATE_USER_WORKSPACE);
+  const { createWorkspaceAPI, service } = useCreateWorkspace(
+    URL_CREATE_USER_WORKSPACE
+  );
 
   const handleSubmit = async () => {
     await createWorkspaceAPI(values);
+    resetForm();
   };
 
   return (
@@ -100,7 +104,13 @@ const CreateWorkspace = (
               <StyledErrorMessage>{errors.workspace}</StyledErrorMessage>
             )}
           </Form.Field>
-          <FormButton type="submit">Submit</FormButton>
+          <FormButton
+            loading={service.status === "loading"}
+            disabled={service.status === "loading"}
+            type="submit"
+          >
+            Submit
+          </FormButton>
         </Form>
       </Accordion.Content>
     </>
