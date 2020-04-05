@@ -8,7 +8,7 @@ export const useCreateWorkspace = (url: string) => {
     status: "init"
   });
 
-  const createWorkspace = async (workspace: CreateWorkspaceFormValues) => {
+  const createWorkspaceAPI = async (workspace: CreateWorkspaceFormValues) => {
     setService({ status: "loading" });
 
     try {
@@ -23,6 +23,6 @@ export const useCreateWorkspace = (url: string) => {
 
   return {
     service,
-    createWorkspace
+    createWorkspaceAPI
   };
 };

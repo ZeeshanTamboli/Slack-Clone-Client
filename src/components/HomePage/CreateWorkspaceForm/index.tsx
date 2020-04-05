@@ -3,6 +3,8 @@ import { Accordion, Icon, Form } from "semantic-ui-react";
 import { FormikProps, withFormik } from "formik";
 import { FormButton, StyledErrorMessage } from "./styles";
 import * as Yup from "yup";
+import { useCreateWorkspace } from "../../../hooks/HomePage";
+import { URL_CREATE_USER_WORKSPACE } from "../../../api/endpoints";
 
 export interface CreateWorkspaceFormValues {
   email: string;
@@ -20,7 +22,6 @@ const CreateWorkspace = (
   props: OtherProps & FormikProps<CreateWorkspaceFormValues>
 ) => {
   const {
-    handleSubmit,
     handleChange,
     values,
     activeIndex,
@@ -28,6 +29,12 @@ const CreateWorkspace = (
     errors,
     touched
   } = props;
+
+  const { createWorkspaceAPI } = useCreateWorkspace(URL_CREATE_USER_WORKSPACE);
+
+  const handleSubmit = async () => {
+    await createWorkspaceAPI(values);
+  };
 
   return (
     <>
@@ -132,8 +139,5 @@ export const CreateWorkspaceForm = withFormik<
       .required("Required"),
     workspace: Yup.string().required("Required")
   }),
-  handleSubmit: values => {
-    //   do submitting things
-    // console.log('abc');
-  }
+  handleSubmit: values => {}
 })(CreateWorkspace);
