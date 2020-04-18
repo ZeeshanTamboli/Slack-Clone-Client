@@ -1,9 +1,9 @@
 import React from "react";
 import { Accordion, Icon, Form } from "semantic-ui-react";
 import { FormikProps, withFormik } from "formik";
+import axios from "axios";
 import { FormButton, StyledErrorMessage } from "./styles";
 import * as Yup from "yup";
-import { useCreateWorkspace } from "../../../hooks/HomePage";
 import { URL_CREATE_USER_WORKSPACE } from "../../../api/endpoints";
 
 export interface CreateWorkspaceFormValues {
@@ -28,17 +28,9 @@ const CreateWorkspace = (
     setIndex,
     errors,
     touched,
-    resetForm
+    handleSubmit,
+    isSubmitting
   } = props;
-
-  const { createWorkspaceAPI, service } = useCreateWorkspace(
-    URL_CREATE_USER_WORKSPACE
-  );
-
-  const handleSubmit = async () => {
-    await createWorkspaceAPI(values);
-    resetForm();
-  };
 
   return (
     <>
@@ -105,8 +97,8 @@ const CreateWorkspace = (
             )}
           </Form.Field>
           <FormButton
-            loading={service.status === "loading"}
-            disabled={service.status === "loading"}
+            loading={isSubmitting}
+            disabled={isSubmitting}
             type="submit"
           >
             Submit
@@ -149,5 +141,19 @@ export const CreateWorkspaceForm = withFormik<
       .required("Required"),
     workspace: Yup.string().required("Required")
   }),
-  handleSubmit: values => {}
+  handleSubmit: async (
+    values: CreateWorkspaceFormValues,
+    { resetForm, setStatus }
+  ) => {
+    try {
+      setStatus("loading");
+      const { data } = await axios.post(URL_CREATE_USER_WORKSPACE, values, {
+        headers: { "Content-Type": "application/json" }
+      });
+      if (data.success) {
+        setStatus("succeeded");
+        resetForm();
+      }
+    } catch (error) {}
+  }
 })(CreateWorkspace);
