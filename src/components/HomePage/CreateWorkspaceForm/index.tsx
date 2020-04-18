@@ -141,17 +141,12 @@ export const CreateWorkspaceForm = withFormik<
       .required("Required"),
     workspace: Yup.string().required("Required")
   }),
-  handleSubmit: async (
-    values: CreateWorkspaceFormValues,
-    { resetForm, setStatus }
-  ) => {
+  handleSubmit: async (values: CreateWorkspaceFormValues, { resetForm }) => {
     try {
-      setStatus("loading");
       const { data } = await axios.post(URL_CREATE_USER_WORKSPACE, values, {
         headers: { "Content-Type": "application/json" }
       });
       if (data.success) {
-        setStatus("succeeded");
         resetForm();
       }
     } catch (error) {}
